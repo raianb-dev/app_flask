@@ -1,20 +1,10 @@
+from Conn.db_conection import db
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/agend'
-
-db = SQLAlchemy(app)
-
-class usuario(db.Model):
+class user(db.Model):
     id = db.Column(db.Integer, primary_key= True)
-    nome = db.Column(db.String(50))
+    name = db.Column(db.String(50))
     email = db.Column(db.String(100))
-    
+    phone = db.Column(db.String(9))
     
     def to_json(self):
         return {
@@ -22,3 +12,4 @@ class usuario(db.Model):
                      "nome": self.nome, 
                      "email": self.email
                 }
+
