@@ -9,8 +9,3 @@ app = Flask(__name__)
 def hello_world():
     msg = {"Alert":"API Connect Successful"}
     return jsonify(msg)
-
-@app.route("/Account/Users", methods=["GET"])
-def hello_world():
-    msg = {"Alert":"API Connect Successful"}
-    return jsonify(msg)
