@@ -2,3 +2,5 @@ flask
 flask_sqlalchemy
 mysql-connector-python
 mysqlclient
+Flask-SQLAlchemy==2.1
+SQLAlchemy<1.4
