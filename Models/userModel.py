@@ -1,6 +1,6 @@
-from .conn.db_conection import db, app
+from .conn.db_conection import db
 
-class user(db.Model):
+class User(db.Model):
     
     id = db.Column(db.Integer, primary_key= True, unique= True)
     name = db.Column(db.String(50))
@@ -10,18 +10,28 @@ class user(db.Model):
     url_pic = db.Column(db.String(100))
     status = db.Column(db.Boolean)
 
-    def to_json(self):
+    def to_getJson(self):
         return {
-                    "profile":
+                    "account":
                         {
-                            "status": self.status,
-                            "bio": self.bio,
-                            "url_pic": self.url_pic
+                            "id": self.id,
+                            "name": self.name, 
+                            "email": self.email
                             },
-                        
-                    "id": self.id,
-                    "nome": self.name, 
-                    "email": self.email
-                }
+                    "status": self.status,
+                    "bio": self.bio,
+                    "url_pic": self.url_pic
+            }
+    def to_addJson(self):
+        return {
+                    "userId": self.id,
+           
+        }
+    def to_selectJson(self):
+        return {
+            "userId": self.id,
+            "name": self.name,
+            "url_pic": self.url_pic
+        }
 
 

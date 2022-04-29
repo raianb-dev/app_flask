@@ -1,12 +1,18 @@
 import json
 from flask import Response
+import datetime
 
+from sqlalchemy import null
 
-def set_response(status, conteudo, mensagem=False):
+def set_response(status, conteudo=None, alert=None):
     body = {}
-    body["content"] = conteudo
-    if(mensagem):
-        body["mensagem"] = mensagem
+    body["message"] = "API Connect Successful"
+    body["time_request"] = str(datetime.datetime.now())
+    body["status"] = status
+    body["content"] = [conteudo]
+
+    if(alert):
+        body["alert"] = alert
 
     return Response (    
                         json.dumps(body), 
