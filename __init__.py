@@ -24,6 +24,7 @@ def userSelect():
 def userId(id):
 
     cursor = user.query.filter_by(id=id).first()
+
     if cursor:
         cursor = cursor.to_getJson()
         return set_response(200, cursor)
