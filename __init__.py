@@ -1,9 +1,6 @@
-
-
 from flask import Flask, request
 from .Models.userModel import user, db
 from .Models.Serialize import set_response
-
 
 app = Flask(__name__)
 
@@ -23,12 +20,12 @@ def userSelect():
         msg = 'results not found'
         return set_response(400, usuarios_json, msg)
     
-
 @app.route("/v1/Account/User/<id>", methods=["GET"])
 def userId(id):
 
     cursor = user.query.filter_by(id=id).first()
     if cursor:
+        cursor = cursor.to_getJson()
         return set_response(200, cursor)
     else:
         msg = 'user not found'
@@ -61,9 +58,7 @@ def userAdd():
     usuario =  user(
                         name = body["name"],
                         email = body["email"],
-                        phone = body["phone"],
-                        bio = body["bio"],
-                        url_pic = body["url_pic"]
+                        phone = body["phone"]
                     )
     db.session.add(usuario)
     db.session.commit()

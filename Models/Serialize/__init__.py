@@ -6,7 +6,7 @@ from sqlalchemy import null
 
 def set_response(status, conteudo=None, alert=None):
     body = {}
-    body["message"] = "API Connect Successful"
+    body["message"] = "procedure performed successfully"
     body["time_request"] = str(datetime.datetime.now())
     body["status"] = status
     body["content"] = [conteudo]
