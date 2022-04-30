@@ -28,6 +28,7 @@ def userSelect():
 def userId(id):
 
     cursor = user.query.filter_by(id=id).first()
+
     if cursor:
         return set_response(200, cursor)
     else:

@@ -1,4 +1,4 @@
-from .conn.db_conection import db
+from ..Models.conn.db_conection import db
 
 class user(db.Model):
     __tablename__ = 'Account'
