@@ -27,8 +27,8 @@ def userSelect():
 @app.route("/v1/Account/User/<id>", methods=["GET"])
 def userId(id):
 
-    cursor = User.query.filter_by(id=id).first()
-    cursor.to_json()
+    cursor = user.query.filter_by(id=id).first()
+
     if cursor:
         return set_response(200, cursor)
     else:
