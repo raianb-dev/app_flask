@@ -1,9 +1,7 @@
 
 
 from flask import Flask, request
-from numpy import tri
-from sqlalchemy import exists, null, true
-from .Models.userModel import User, db 
+from .Models.userModel import user, db
 from .Models.Serialize import set_response
 
 
@@ -16,18 +14,26 @@ def home():
 
 @app.route("/v1/Account/Users", methods=["GET"])
 def userSelect():
-    usuarios_objetos = User.query.all()
-    usuarios_json = [User.to_selectJson() for User in usuarios_objetos]
+    cursor = user.query.all()
+    usuarios_json = [user.to_selectJson() for user in cursor]
 
-    return set_response(200, usuarios_json)
+    if cursor:
+        return set_response(200, usuarios_json)
+    else:
+        msg = 'results not found'
+        return set_response(400, usuarios_json, msg)
+    
 
 @app.route("/v1/Account/User/<id>", methods=["GET"])
 def userId(id):
-    cursor = User.query.filter_by(id=id).first()
-    user = cursor.to_getJson()
 
-    return set_response(200, user)
-
+    cursor = user.query.filter_by(id=id).first()
+    if cursor:
+        return set_response(200, cursor)
+    else:
+        msg = 'user not found'
+        return set_response(400, cursor, msg)
+    
 @app.route("/v1/Account/User", methods=["POST"])
 def userAdd():
     body =  request.get_json()
@@ -52,7 +58,7 @@ def userAdd():
         msg = "phone is required"
         return set_response(400,None, msg)
 
-    usuario =  User(
+    usuario =  user(
                         name = body["name"],
                         email = body["email"],
                         phone = body["phone"],
