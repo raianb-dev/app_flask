@@ -1,6 +1,6 @@
 from flask import Flask, request
-from .models.userModel import user, db
-from .models.appSettings import set_response
+from .Models.userModel import user, db
+from .Models.appSettings import set_response
 import datetime
 app = Flask(__name__)
 
