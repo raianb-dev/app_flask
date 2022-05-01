@@ -1,7 +1,7 @@
 from flask import Flask, request
-from .Models.userModel import user, db
-from .Models.Serialize import set_response
-
+from .models.userModel import user, db
+from .models.appSettings import set_response
+import datetime
 app = Flask(__name__)
 
 @app.route("/")
@@ -55,11 +55,13 @@ def userAdd():
     except Exception as msg:
         msg = "phone is required"
         return set_response(400,None, msg)
-
+    
+    date = str(datetime.datetime.now())
     usuario =  user(
                         name = body["name"],
                         email = body["email"],
-                        phone = body["phone"]
+                        phone = body["phone"],
+                        createdAt = f"{date}"
                     )
     db.session.add(usuario)
     db.session.commit()
