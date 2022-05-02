@@ -2,7 +2,10 @@ from flask import Flask, request
 from .Models.userModel import user, db
 from .Models.appSettings import set_response
 import datetime
+
+
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
@@ -34,6 +37,7 @@ def userId(id):
     
 @app.route("/v1/Account/User", methods=["POST"])
 def userAdd():
+
     body =  request.get_json()
     try:
         if body["name"] is not body:
@@ -66,3 +70,22 @@ def userAdd():
     db.session.add(usuario)
     db.session.commit()
     return set_response(200, usuario.to_addJson())
+
+@app.route("/v1/Account/User/<id>", methods=["PUT"])
+def update_usuario(id):
+    usuario_objeto = user.query.filter_by(id=id).first()
+    body = request.get_json()
+    date = str(datetime.datetime.now())
+    usuario_objeto =  user(
+                        name = body["name"],
+                        email = body["email"],
+                        phone = body["phone"],
+                        latUpdatedAt = f"{date}"
+                    )
+
+    usuario_objeto.name = body["name"]
+    usuario_objeto.email = body["email"]
+        
+    db.session.update(usuario_objeto)
+    db.session.commit()
+    return set_response(200, "Updated Successful")
