@@ -1,9 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine as ce
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Integer, Column, String
 from flask import Flask
 
-app = Flask(__name__)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/_database'
+engine = ce('mysql://root:@localhost/_database', echo=True)
+base = declarative_base()
+SessionMaker = sessionmaker(bind=engine)
+session = SessionMaker()
+session._model_changes = {}
 
-db = SQLAlchemy(app)
+base = Flask(base)
+
